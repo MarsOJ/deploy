@@ -1,0 +1,25 @@
+version: "3"
+services:
+  backend:
+    container_name: backend
+    restart: always
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    # command: "gunicorn -k gevent -w 1 app:app -b :8080"
+    command: "flask run -p 8080"
+    ports:
+      - "8080:8080"
+    volumes:
+      - /var/lib/mongo:/var/lib/mongo
+
+  frontend:
+    container_name: frontend
+    restart: always
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
