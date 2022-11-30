@@ -7,7 +7,7 @@ FROM python:3.9
 RUN wget https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-rhel80-5.0.4.tgz
 RUN mkdir /usr/local/mongodb
 RUN tar -zxvf mongodb-linux-x86_64-rhel80-5.0.4.tgz -C /usr/local/mongodb
-RUN rm -f mongodb-linux-x86_64-rhel80-5.0.4.tgz
+RUN rm -f mongodb-linux-x86_64-rhel80-5.0.4.tgz 
 RUN mv /usr/local/mongodb/mongodb-linux-x86_64-rhel80-5.0.4 /usr/local/mongodb/mongodbserver
 RUN mkdir -p /var/lib/mongo
 RUN mkdir -p /var/log/mongodb

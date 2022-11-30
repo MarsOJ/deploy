@@ -6,12 +6,19 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.backend
-    # command: "gunicorn -k gevent -w 1 app:app -b :8080"
-    command: "flask run -p 8080"
     ports:
-      - "8080:8080"
+      - "8001:8001"
+    expose:
+      - "27017"
+    command: 
+      - sh
+      - -c
+      - |
+        mongod --dbpath /var/lib/mongo --logpath /var/log/mongodb/mongod.log --fork
+        flask run -h 0.0.0.0 -p 8001
     volumes:
       - /var/lib/mongo:/var/lib/mongo
+
 
   frontend:
     container_name: frontend
