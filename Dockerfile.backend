@@ -1,28 +1,8 @@
 FROM python:3.9
 
-# -----
-# install mongoDB
-# -----
-
-RUN wget https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-rhel80-5.0.4.tgz
-RUN mkdir /usr/local/mongodb
-RUN tar -zxvf mongodb-linux-x86_64-rhel80-5.0.4.tgz -C /usr/local/mongodb
-RUN rm -f mongodb-linux-x86_64-rhel80-5.0.4.tgz 
-RUN mv /usr/local/mongodb/mongodb-linux-x86_64-rhel80-5.0.4 /usr/local/mongodb/mongodbserver
-RUN mkdir -p /var/lib/mongo
-RUN mkdir -p /var/log/mongodb
-RUN chmod 777 /var/lib/mongo
-RUN chmod 777 /var/log/mongodb
-RUN ln -sf /usr/local/mongodb/mongodbserver/bin/mongod /usr/bin/mongod&& ln -sf /usr/local/mongodb/mongodbserver/bin/mongo /usr/bin/mongo && ln -sf /usr/local/mongodb/mongodbserver/bin/mongos /usr/bin/mongos
-RUN mongod --dbpath /var/lib/mongo --logpath /var/log/mongodb/mongod.log --fork
-
-# -----
-# finish install python
-# -----
-
 WORKDIR /app
 COPY ./backend/requirements.txt ./requirements.txt
 RUN python -m pip install --upgrade pip -i http://mirrors.aliyun.com/pypi/simple/
 RUN pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
-# RUN apt-get install gunicorn3
+RUN pip install gunicorn -i https://pypi.tuna.tsinghua.edu.cn/simple
 COPY ./backend/ .

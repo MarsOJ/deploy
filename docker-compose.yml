@@ -6,27 +6,48 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.backend
-    ports:
-      - "8001:8001"
+    # ports:
+    #   - "5000:5000"
+    expose:
+      - "5000"
+    command: >
+      bash -c
+      "gunicorn -w4 -b 0.0.0.0:5000 --log-level=debug app:app"
+    networks:
+      - db_network
+      - web_network
+    depends_on:
+      - database
+
+  database:
+    container_name: database
+    restart: always
+    image: mongo:4.0
     expose:
       - "27017"
-    command: 
-      - sh
-      - -c
-      - |
-        mongod --dbpath /var/lib/mongo --logpath /var/log/mongodb/mongod.log --fork
-        flask run -h 0.0.0.0 -p 8001
+   # port:
+   #   - "27017:27017"
     volumes:
-      - /var/lib/mongo:/var/lib/mongo
-
+      - /var/lib/mongo:/data/db
+    networks:
+      - db_network
 
   frontend:
     container_name: frontend
     restart: always
+
     build:
       context: .
       dockerfile: Dockerfile.frontend
     ports:
       - "80:80"
+    networks:
+      - web_network
     depends_on:
       - backend
+
+networks:
+  web_network:
+    driver: bridge
+  db_network:
+    driver: bridge

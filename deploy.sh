@@ -1,5 +1,5 @@
 # !/bin/bash
 
-# git pull --recurse-submodules
+git submodule update --remote
 docker-compose down --volumes
 docker-compose up -d
