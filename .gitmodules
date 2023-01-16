@@ -1,6 +1,6 @@
 [submodule "frontend"]
 	path = frontend
-	url = git@e.coding.net:marsoj/marsoj/frontend.git
+	url = git@github.com:MarsOJ/frontend.git
 [submodule "backend"]
 	path = backend
-	url = git@e.coding.net:marsoj/marsoj/backend.git
+	url = git@github.com:MarsOJ/backend.git

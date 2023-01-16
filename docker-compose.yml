@@ -10,8 +10,9 @@ services:
       - "5000"
     command: >
       bash -c
-      "gunicorn -k gevent -w 1 app:app -b :5000 -e FLASK_APP_DB_URL=mongodb://database:27017"
-    
+      "flask run -p 5000 -h 0.0.0.0"
+    environment:
+      - TZ=Asia/Shanghai
     networks:
       - db_network
       - web_network
@@ -22,10 +23,13 @@ services:
     container_name: database
     restart: always
     image: mongo:4.0
+    environment:
+      - TZ=Asia/Shanghai
     expose:
       - "27017"
     volumes:
       - /var/lib/mongo:/data/db
+      - /etc/timezone:/etc/timezone:ro
     networks:
       - db_network
 
